@@ -23,12 +23,13 @@ class GameFragment : Fragment() {
     private val binding: FragmentGameBinding
         get() = _binding ?: throw RuntimeException("FragmentGameBinding == null")
 
-    private val viewModel by lazy {
-        ViewModelProvider(
-            this,
-            ViewModelProvider.AndroidViewModelFactory.getInstance(requireActivity().application)
-        )[GameViewModel::class.java]
+    private val viewModelFactory by lazy {
+        GameViewModelFactory(requireActivity().application, level)
     }
+    private val viewModel by lazy {
+        ViewModelProvider(this, viewModelFactory)[GameViewModel::class.java]
+    }
+
     private val tvOptions by lazy {
         mutableListOf<TextView>().apply {
             add(binding.tvOption1)
@@ -56,7 +57,6 @@ class GameFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         observeViewModel()
-        viewModel.startGame(level)
         setClickListener()
     }
 
