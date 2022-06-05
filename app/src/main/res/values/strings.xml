@@ -1,3 +1,28 @@
 <resources>
     <string name="app_name">GameComposition</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="welcome_logo">Welcome logo</string>
+    <string name="game_name">Состав числа</string>
+    <string name="rules_of_the_game">
+        Правила игры:\nВам будут передоставлены три фигуры, в двух
+        из которых уже данны числовые значения, Вашазадача выбрать недостающее число, так чтобы
+        нижние числа в сумме давали верхнее число.\n\nПример: Сверху число 8, ниже известный
+        аргумент равен 5, тогда правильным решением будет число 3
+    </string>
+    <string name="ready">Понятно</string>
+    <string name="choose_lvl_title">Выберите уровень сложности</string>
+    <string name="lvl_test">Тест</string>
+    <string name="lvl_easy">Лёгкий</string>
+    <string name="lvl_normal">Нормальный</string>
+    <string name="lvl_hard">Сложный</string>
+    <string name="question_mark">\?</string>
+    <string name="game_over">Game over</string>
+    <string name="required_score">Необходимое количество правильных ответов: %s</string>
+    <string name="score_answers">Ваш счет: %s</string>
+    <string name="score_percentage">Процент правильных ответов: %s</string>
+    <string name="retry">Попробовать снова</string>
+    <string name="right_answers">Правильных ответов %s из %s необходимых</string>
+    <string name="required_percentage">Необходимый процент правильных ответов: %s</string>
+    <string name="progress_answers">Правильных ответов %s (минимум %s)</string>
 </resources>
