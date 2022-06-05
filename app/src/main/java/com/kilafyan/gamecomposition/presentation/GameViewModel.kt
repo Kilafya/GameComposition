@@ -1,11 +1,13 @@
 package com.kilafyan.gamecomposition.presentation
 
 import android.app.Application
+import android.content.Context
 import android.os.CountDownTimer
 import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import com.kilafyan.gamecomposition.R
 import com.kilafyan.gamecomposition.data.GameRepositoryImpl
 import com.kilafyan.gamecomposition.domain.entity.GameResult
@@ -15,9 +17,11 @@ import com.kilafyan.gamecomposition.domain.entity.Question
 import com.kilafyan.gamecomposition.domain.usescases.GenerateQuestionUseCase
 import com.kilafyan.gamecomposition.domain.usescases.GetGameSettingsUseCase
 
-class GameViewModel(application: Application): AndroidViewModel(application) {
+class GameViewModel(
+    private val application: Application,
+    private val level: Level
+): ViewModel() {
 
-    private val context = application
     private val repository = GameRepositoryImpl
     private val generateQuestionUseCase = GenerateQuestionUseCase(repository)
     private val getGameSettingsUseCase = GetGameSettingsUseCase(repository)
@@ -27,7 +31,6 @@ class GameViewModel(application: Application): AndroidViewModel(application) {
     private var countAnswer = 0
 
     private lateinit var gameSettings: GameSettings
-    private lateinit var level: Level
 
     private val _formattedTime = MutableLiveData<String>()
     val formattedTime: LiveData<String>
@@ -61,8 +64,12 @@ class GameViewModel(application: Application): AndroidViewModel(application) {
     val gameResult: LiveData<GameResult>
         get() = _gameResult
 
-    fun startGame(level: Level) {
-        getGameSettings(level)
+    init {
+        startGame()
+    }
+
+    private fun startGame() {
+        getGameSettings()
         startTimer()
         generateQuestion()
         updateProgress()
@@ -74,7 +81,7 @@ class GameViewModel(application: Application): AndroidViewModel(application) {
         Log.d("PERCENT", percent.toString())
         _percentOfRightAnswer.value = percent
         _progressAnswers.value = String.format(
-            context.resources.getString(R.string.progress_answers),
+            application.resources.getString(R.string.progress_answers),
             countOfRightAnswers,
             gameSettings.minCountOfRightAnswers
         )
@@ -101,8 +108,7 @@ class GameViewModel(application: Application): AndroidViewModel(application) {
         ++countAnswer
     }
 
-    private fun getGameSettings(level: Level) {
-        this.level = level
+    private fun getGameSettings() {
         this.gameSettings = getGameSettingsUseCase(level)
         _minPercent.value = gameSettings.minPercentOfRightAnswers
     }
